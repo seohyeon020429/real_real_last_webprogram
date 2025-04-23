@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카드 방식으로 항목 꾸며보기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        h1, h2 {
+            border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;
+            margin-top: 40px; color: #333;
+        }
+        h1 { font-size: 1.8em; }
+        h2 { font-size: 1.4em; }
+        .explanation-box {
+            background-color: #fffbe6; border: 1px solid #ffeccc; padding: 15px 20px;
+            margin: 15px 0; border-radius: 5px;
+        }
+        .code-box {
+            background-color: #f5f5f5; border: 1px solid #ddd; padding: 15px 20px;
+            margin: 15px 0; border-radius: 5px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            overflow-x: auto; white-space: pre; font-size: 0.95em;
+        }
+        .code-box pre { margin: 0; }
+        .highlight {
+            font-weight : bold; color : #d33682; background-color: #eee8d5;
+            padding: 1px 5px; border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        }
+        .practice-area {
+            border: 1px solid #ccc; padding: 20px; margin-top: 30px; border-radius: 8px;
+        }
+        .practice-area h3 {
+            margin-top: 0; margin-bottom: 15px; font-size: 1.1em; color: #555;
+            border-bottom: 1px solid #eee; padding-bottom: 8px;
+        }
+        .practice-area textarea {
+            width: 100%; min-height: 300px; border: 1px solid #ddd; padding: 10px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 0.95em; line-height: 1.5; resize: vertical; margin-bottom: 10px;
+            background-color: #fdfdfd; box-sizing: border-box;
+        }
+        .editor-toggle-buttons {
+            margin-bottom: 10px;
+        }
+        .editor-toggle-buttons button {
+            padding: 5px 15px;
+            margin-right: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .editor-toggle-buttons button.active {
+            background-color: #e9efff;
+            border-bottom: 2px solid #0056b3;
+            font-weight: bold;
+        }
+        .editor-toggle-buttons button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .practice-output { min-height: 200px; border: 1px dashed #eee; background-color: #ffffff; padding: 15px; margin-top: 20px; }
+        .practice-output iframe { min-height: 400px; display: block; border: none; width: 100%; }
+        .update-button, .newdate-button {
+            margin-top: 10px; padding: 8px 15px; color: white; border: none; cursor: pointer;
+            border-radius: 5px; font-weight: bold; transition: background-color 0.2s, transform 0.1s; font-size: 0.9em;
+        }
+        .update-button:active, .newdate-button:active { transform: scale(0.98); }
+        .update-button { background-color: #5cb85c; }
+        .update-button:hover { background-color: #4cae4c; }
+        .newdate-button { background-color: #f0ad4e; margin-left : 10px; }
+        .newdate-button:hover { background-color: #ec971f; }
+
+        .navigator-sidebar {
+            width: 200px; background-color: #ffffff; padding: 20px; display: flex;
+            flex-direction: column; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; z-index: 1000;
+        }
+        .sidebar-back-btn {
+            display: block;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.2s;
+        }
+        .sidebar-back-btn:hover {
+            background-color: #e8e8e8;
+        }
+
+        .sidebar-separator {
+            border: none;
+            border-top: 2px solid #eee;
+            margin: 25px 0;
+        }
+
+        .sidebar-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+        .sidebar-links li { margin: 0; }
+
+        .sidebar-links a {
+            display: block;
+            padding: 8px 10px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #bbb;
+            background-color: #ffffff;
+            color: #333;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            text-decoration: none;
+        }
+        .sidebar-links a:hover {
+            background-color: #f0f0f0;
+            border-color: #aaa;
+            color: #007bff;
+        }
+        .sidebar-links a:active {
+             transform: scale(0.98);
+        }
+
+        .explanation-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 40px 30px 240px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navigator-sidebar">
+        <a href="main-home.html" class="sidebar-back-btn">뒤로 가기</a>
+        <hr class="sidebar-separator">
+        <ul class="sidebar-links">
+            <li><a href="#html-explanation">html 코드</a></li>
+            <li><a href="#css-explanation">css 코드</a></li>
+            <li><a href="#practice-section">실습해 보기</a></li>
+        </ul>
+    </div>
+
+    <div class="explanation-content">
+
+        <h1>항목을 카드 방식으로 꾸며보기</h1>
+
+        <h2>1. 이미지 표시하기 (&lt;img&gt;)</h2>
+        <div class="explanation-box">
+            웹사이트에서 로고나 사진을 보여줄 땐 <span class="highlight">&lt;img&gt;</span> 태그를 사용합니다.
+        </div>
+        <div class="code-box"><pre><code>&lt;img class="column-img" src="image.jpg" alt="설명"&gt;</code></pre></div>
+        <div class="explanation-box">
+            <span class="highlight">&lt;img&gt;</span> 태그는 <span class="highlight">src</span> 속성을 통해 표시할 이미지 파일 경로를 지정합니다.<br>
+            이미지 크기 등 스타일을 적용하기 위해, <span class="highlight">class</span> 속성을 추가하고 <span class="highlight">"column-img"</span>를 지정해줍니다. (<span class="highlight">alt</span>는 이미지 대체 텍스트입니다.)
+        </div>
+
+        <h2>2. 텍스트 추가하기 (&lt;h1&gt;, &lt;p&gt;)</h2>
+        <div class="explanation-box">
+            카드에 텍스트를 추가하기 위해 <span class="highlight">&lt;h1&gt;</span> 태그와 <span class="highlight">&lt;p&gt;</span>태그를 사용해봅시다.
+        </div>
+        <div class="code-box"><pre><code>&lt;h1 class="Home-classification-column_name"&gt;동아리&lt;/h1&gt;
+&lt;detail class="Home-classification-column_detail"&gt;
+    &lt;p&gt;우리 학교에 어떤 동아리가 있는지&lt;/p&gt;
+    &lt;p&gt;확인해보시죠!&lt;/p&gt;
+&lt;/detail&gt;</code></pre></div>
+        <div class="explanation-box">
+            <span class="highlight">&lt;h1&gt;</span> 태그는 제목을 적을 때 사용하고, <span class="highlight">&lt;p&gt;</span>태그는 본문을 적을 때 사용합니다.<br>
+            텍스트의 스타일을 적용하기 위해, <span class="highlight">class</span> 속성을 추가하여 각각 <span class="highlight">"Home-classification-column_name"</span>과 <span class="highlight">"Home-classification-column_detail"</span>을 지정해줍니다.
+            (&lt;detail&gt; 태그 대신 &lt;div&gt; 태그를 사용해도 됩니다.)
+        </div>
+
+        <h2>3. 버튼 추가하기 (&lt;button&gt;)</h2>
+        <div class="explanation-box">
+            카드에 More 버튼을 추가하기 위해 <span class="highlight">&lt;button&gt;</span> 태그를 사용해봅시다.
+        </div>
+        <div class="code-box"><pre><code>&lt;button class="Home-classification-column_button"&gt;More&lt;/button&gt;</code></pre></div>
+        <div class="explanation-box">
+            <span class="highlight">&lt;button&gt;</span> 태그를 사용하면, 사용자가 클릭할 수 있는 오브젝트를 만들고, 버튼을 클릭하면 특정 동작을 실행시키게 할 수 있습니다.<br>
+            이를 지정(스타일링)하기 위해 <span class="highlight">class="Home-classification-column_button"</span> 클래스를 지정해 줍니다.
+        </div>
+
+        <h2 id="html-explanation">4. 카드 HTML 구조 완성</h2>
+        <div class="explanation-box">
+            이를 종합하면 html 코드는 완성!
+        </div>
+        <div class="code-box"><pre><code>&lt;div class="Home-classification-column"&gt;
+  &lt;img class="column-img" src="image.jpg"/&gt;
+  &lt;h1 class="Home-classification-column_name"&gt;동아리&lt;/h1&gt;
+  &lt;detail class="Home-classification-column_detail"&gt;
+    &lt;p&gt;우리 학교에 어떤 동아리가 있는지&lt;/p&gt;
+    &lt;p&gt;확인해보시죠!&lt;/p&gt;
+  &lt;/detail&gt;
+  &lt;button class="Home-classification-column_button"&gt;More&lt;/button&gt;
+&lt;/div&gt;</code></pre></div>
+
+        <h2 id="css-explanation">5. CSS로 카드 틀 꾸미기</h2>
+        <div class="explanation-box">
+            CSS를 이용해서 카드 형식으로 꾸며봅시다. 먼저, 전체적인 틀을 잡아 봅시다.
+        </div>
+        <div class="code-box"><pre><code>.Home-classification-column {
+    width: 18%;
+    background-color: rgba(255, 231, 205, 1);
+    border-radius: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}</code></pre></div>
+        <div class="explanation-box">
+            <span class="highlight">display: flex;</span> 와 <span class="highlight">flex-direction: column;</span> 을 사용해서 카드 안의 내용물 (이미지, 제목, 설명, 버튼)이 세로로 차례대로 배치되도록 설정합니다.<br>
+            <span class="highlight">justify-content</span> 와 <span class="highlight">align-items</span> 를 사용하면 이 세로로 쌓인 내용들을 카드의 정중앙에 위치시킬 수 있습니다. (그 외 너비, 배경색, 모서리 둥글기, 안쪽 여백 등을 설정합니다.)
+        </div>
+
+        <h2>6. CSS로 내부 요소 꾸미기 (이미지, 버튼)</h2>
+        <div class="explanation-box">
+            다음으로, 내부 요소를 꾸며 봅시다.
+        </div>
+         <div class="code-box"><pre><code>.column-img {
+    width: 225px;
+    height: 225px;
+}
+
+.Home-classification-column_button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: lightblue;
+    box-sizing: border-box;
+}</code></pre></div>
+         <div class="explanation-box">
+             <span class="highlight">.column-img</span> 클래스에 <span class="highlight">width</span>와 <span class="highlight">height</span>를 지정하여 이미지 크기를 원하는 대로 고정시킵니다.<br>
+             <span class="highlight">.Home-classification-column_button</span> 클래스에는 <span class="highlight">padding</span>으로 버튼 크기를 조절하고, <span class="highlight">border: none;</span>으로 기본 테두리를 없앱니다. <span class="highlight">background-color</span>와 <span class="highlight">border-radius</span>로 버튼의 색상과 모양을 디자인합니다.
+        </div>
+
+        <h2>7. CSS로 텍스트 간격 조절하기 (margin)</h2>
+        <div class="explanation-box">
+            마지막으로, 간격을 조절해 가독성을 높여 봅시다.
+        </div>
+        <div class="code-box"><pre><code>.Home-classification-column_detail {
+    margin: 20px 0px;
+}
+
+.Home-classification-column_detail p {
+    margin: 10px 0px;
+}</code></pre></div>
+        <div class="explanation-box">
+            <span class="highlight">margin</span> 속성을 사용하여 요소들 바깥쪽의 여백을 조절합니다.<br>
+            <span class="highlight">.Home-classification-column_detail</span>에는 위아래로 20px의 여백을 주어 다른 요소(제목, 버튼)와의 간격을 만들고, 그 안의 각 p 태그에는 위아래 10px의 여백을 주어 문단 사이의 간격을 만듭니다.
+        </div>
+
+        <h2 id="practice-section">8. 종합 실습</h2>
+        <div class="explanation-box">
+            위에서 배웠던 코드들을 이용해서, 직접 만들어 봅시다.
+        </div>
+        <div class="practice-area">
+            <h3>HTML/CSS 실습: CSS 영역에 CSS 클래스를 넣어보고, HTML영역 안에 배운 HTML 태그를 넣어보세요!</h3>
+            <div class="editor-toggle-buttons">
+                <button onclick="toggleEditor('html')" class="active">HTML</button>
+                <button onclick="toggleEditor('css')">CSS</button>
+            </div>
+            <textarea id="htmlInputPractice" placeholder="HTML 코드를 입력하세요...">
+&lt;div class="Home-classification-column"&gt;
+  &lt;img class="column-img" src="https://images.unsplash.com/vector-1740878694530-d3ce3827c6e7?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fGN1dGUlMjBjaGlja2VufGVufDB8fDB8fHww" alt="예시 이미지"&gt;
+  &lt;h1 class="Home-classification-column_name"&gt;카드 제목&lt;/h1&gt;
+  &lt;detail class="Home-classification-column_detail"&gt;
+    &lt;p&gt;카드 설명 첫 번째 줄입니다.&lt;/p&gt;
+    &lt;p&gt;카드 설명 두 번째 줄입니다.&lt;/p&gt;
+  &lt;/detail&gt;
+  &lt;button class="Home-classification-column_button"&gt;더 알아보기&lt;/button&gt;
+&lt;/div&gt;
+            </textarea>
+            <textarea id="cssInputPractice" placeholder="CSS 코드를 입력하세요..." style="display: none;">
+.Home-classification-column {
+    width: 250px; background-color: rgba(255, 231, 205, 1); border-radius: 12px;
+    padding: 20px; display: flex; justify-content: center; align-items: center;
+    flex-direction: column; margin: 20px auto;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1); font-family: sans-serif;
+}
+.column-img {
+    width: 150px; height: 150px; object-fit: cover; border-radius: 8px;
+}
+.Home-classification-column_name {
+    margin-top: 15px; font-size: 1.3em; font-weight: bold;
+}
+.Home-classification-column_detail {
+    margin: 15px 0px; text-align: center;
+}
+.Home-classification-column_detail p {
+    margin: 5px 0px; font-size: 0.95em; color: #333; line-height: 1.4;
+}
+.Home-classification-column_button {
+    padding: 10px 20px; border-radius: 5px; border: none;
+    background-color: lightblue; box-sizing: border-box; cursor: pointer;
+    margin-top: 15px; font-weight: bold; transition: background-color 0.2s;
+}
+.Home-classification-column_button:hover { background-color: deepskyblue; }
+            </textarea>
+            <div>
+                <button class="update-button" onclick="updatePracticeOutput()">업데이트</button>
+                <button class="newdate-button" onclick="resetPracticeArea()">초기화</button>
+            </div>
+            <div class="practice-output">
+                <h3>결과 출력</h3>
+                <div id="practiceResultOutput"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+      function toggleEditor(type) {
+          const htmlEditor = document.getElementById('htmlInputPractice');
+          const cssEditor = document.getElementById('cssInputPractice');
+          const htmlBtn = document.querySelector('.editor-toggle-buttons button:nth-child(1)');
+          const cssBtn = document.querySelector('.editor-toggle-buttons button:nth-child(2)');
+
+          if (type === 'html') {
+              htmlEditor.style.display = 'block';
+              cssEditor.style.display = 'none';
+              htmlBtn.classList.add('active');
+              cssBtn.classList.remove('active');
+          } else if (type === 'css') {
+              htmlEditor.style.display = 'none';
+              cssEditor.style.display = 'block';
+              htmlBtn.classList.remove('active');
+              cssBtn.classList.add('active');
+          }
+      }
+
+      function updatePracticeOutput() {
+          const htmlCode = document.getElementById('htmlInputPractice').value;
+          const cssCode = document.getElementById('cssInputPractice').value;
+          const resultFrame = document.getElementById('practiceResultOutput');
+
+          resultFrame.innerHTML = '';
+          const iframe = document.createElement('iframe');
+          iframe.style.width = '100%';
+          iframe.style.height = '400px';
+          iframe.style.border = 'none';
+          resultFrame.appendChild(iframe);
+
+          iframe.contentWindow.document.open();
+          iframe.contentWindow.document.write(`
+              <!DOCTYPE html>
+              <html lang="ko">
+              <head>
+                  <meta charset="UTF-8">
+                  <title>실습 결과</title>
+                  <style>${cssCode}</style>
+              </head>
+              <body>${htmlCode}</body>
+              </html>
+          `);
+          iframe.contentWindow.document.close();
+      }
+
+      function resetPracticeArea() {
+          document.getElementById('htmlInputPractice').value = '';
+          document.getElementById('cssInputPractice').value = '';
+          document.getElementById('practiceResultOutput').innerHTML = '';
+          toggleEditor('html');
+      }
+
+      const textareas = document.querySelectorAll('textarea');
+      textareas.forEach(textarea => {
+          textarea.addEventListener('keydown', function(event) {
+              if (event.key === 'Tab') {
+                  event.preventDefault();
+                  const start = this.selectionStart;
+                  const end = this.selectionEnd;
+                  this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
+                  this.selectionStart = this.selectionEnd = start + 2;
+              }
+          });
+      });
+
+      document.addEventListener('DOMContentLoaded', (event) => {
+          toggleEditor('html');
+      });
+    </script>
+
+</body>
+</html>

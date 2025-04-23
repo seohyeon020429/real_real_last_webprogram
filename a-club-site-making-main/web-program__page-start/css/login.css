@@ -1,0 +1,118 @@
+/* [1] 모든 요소에 기본 스타일 초기화 */
+* {
+    margin: 0;                   /* 기본 마진 제거 */
+    padding: 0;                  /* 기본 패딩 제거 */
+    box-sizing: border-box;      /* padding과 border를 width/height에 포함 */
+  }
+  
+  /* [2] body 전체 스타일 설정 */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /* 애플 시스템 폰트를 우선 사용하고, 없으면 다른 대체 폰트 사용 */
+  
+    background-color: #f8f8f8;   /* 연한 회색 배경색 */
+    line-height: 1.6;            /* 줄 간격 */
+  }
+  
+  /* [3] 로그인 영역 섹션 전체 정렬 */
+  .login-section {
+    display: flex;               /* 플렉스 박스로 설정 */
+    justify-content: center;    /* 수평 가운데 정렬 */
+    align-items: center;        /* 수직 가운데 정렬 */
+    min-height: 100vh;          /* 화면 전체 높이 */
+    padding: 40px 20px;         /* 위아래 40px, 좌우 20px 여백 */
+    flex-direction: column;   /* 플렉스 박스 상하로 정렬*/
+  }
+  
+  /* [4] 로그인 박스 컨테이너 스타일 */
+  .login-container {
+    background-color: #ffffff;  /* 배경 흰색 */
+    padding: 40px;              /* 내부 여백 */
+    border-radius: 8px;         /* 테두리 둥글게 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    width: 100%;                /* 너비 100% */
+    max-width: 400px;           /* 최대 너비 400px */
+  }
+  
+  /* 로그인 제목 스타일 */
+  .login-container h2 {
+    margin-bottom: 20px;        /* 제목 아래 여백 */
+    text-align: center;         /* 가운데 정렬 */
+    color: #333;                /* 어두운 회색 글씨 */
+  }
+  
+  /* [5] 입력 필드 그룹 설정 */
+  .input-group {
+    margin-bottom: 15px;        /* 그룹 간 간격 */
+  }
+  
+  /* 라벨 텍스트 스타일 */
+  .input-group label {
+    display: block;             /* 블록 요소로 배치 */
+    margin-bottom: 5px;         /* 라벨 아래 간격 */
+    color: #333;                /* 어두운 회색 */
+    font-weight: 500;           /* 약간 진한 글꼴 */
+  }
+  
+  /* 입력창 스타일 */
+  .input-group input {
+    width: 100%;                /* 전체 너비 */
+    padding: 10px;              /* 안쪽 여백 */
+    border: 1px solid #ccc;     /* 연한 회색 테두리 */
+    border-radius: 4px;         /* 살짝 둥근 모서리 */
+  }
+  
+  /* [6] 로그인 버튼 스타일 */
+  .btn {
+    width: 100%;                /* 버튼 너비 전체 */
+    padding: 10px;              /* 안쪽 여백 */
+    background-color: #007aff;  /* 파란색 배경 (애플 블루 계열) */
+    border: none;               /* 테두리 없음 */
+    color: #fff;                /* 흰색 글씨 */
+    font-size: 1rem;            /* 기본 글자 크기 */
+    border-radius: 4px;         /* 살짝 둥근 버튼 */
+    cursor: pointer;            /* 마우스를 올리면 손가락 아이콘 */
+    transition: background-color 0.2s ease; /* 부드러운 색상 전환 */
+  }
+  
+  /* 버튼에 마우스를 올렸을 때 효과 */
+  .btn:hover {
+    background-color: #005bb5;  /* 더 진한 파란색으로 변경 */
+  }
+  
+  /* [7] 하단 보조 링크 영역 */
+  .login-links {
+    margin-top: 20px;           /* 위쪽과 간격 */
+    text-align: center;         /* 가운데 정렬 */
+    font-size: 0.9rem;          /* 약간 작은 글자 크기 */
+    color: #333;                /* 어두운 회색 */
+  }
+  
+  /* 구분자 스타일 (|) */
+  .login-links .divider {
+    margin: 0 8px;              /* 좌우 간격 */
+    color: #ccc;                /* 연한 회색 */
+  }
+  
+  /* 하단의 각 링크 스타일 (a 대신 span 사용) */
+  .login-links .id-find-link,
+  .login-links .forgot-link,
+  .login-links .signup-link {
+    cursor: pointer;            /* 마우스를 올리면 클릭 가능하게 */
+    color: #007aff;             /* 파란색 텍스트 */
+    transition: color 0.2s ease; /* 색상 전환 효과 */
+  }
+  
+  /* 마우스를 올렸을 때 효과 */
+  .login-links .id-find-link:hover,
+  .login-links .forgot-link:hover,
+  .login-links .signup-link:hover {
+    color: #005bb5;             /* 더 진한 파란색으로 변경 */
+    text-decoration: underline; /* 밑줄 표시 */
+  }
+
+  /* 가장 상단에 있는 "페이지 이름" */
+  .page-name {
+    font-size : 20px;
+    margin-bottom : 20px;
+  }

@@ -1,0 +1,68 @@
+ /* 기본 스타일 */
+ .bus_body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.bus_h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #0047ab;
+}
+
+.bus_container {
+    padding: 20px;
+    max-width: 2000px;
+    margin: 0 auto;
+}
+
+/* 동아리 리스트 정렬 */
+.bus_rows {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* 좌우 정렬 */
+    gap: 20px; /* 카드 간격 추가 */
+}
+
+.bus_card {
+    flex: 1 1 calc(25% - 20px); /* 5개씩 한 줄 */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* 이미지 넘침 방지 */
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bus_card:hover {
+    transform: translateY(-5px); /* 마우스 올릴 때 위로 */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* 그림자 강화 */
+}
+
+.bus_card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover; /* 이미지 비율 유지 */
+    border-bottom: 1px solid #ddd;
+}
+
+.bus_card h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.bus_card a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0047ab;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.bus_card a:hover {
+    text-decoration: underline;
+}

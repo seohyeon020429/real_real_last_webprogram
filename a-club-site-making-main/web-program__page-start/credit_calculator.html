@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 공통 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(135, 206, 250,0.5);
+            padding: 20px;
+        }
+
+        /* 학점 계산기 가장 큰 div */
+        .grade-calculator-container {
+            max-width: 800px; /* 최대 가로 크기를 800px로 제한 */
+            margin: 0 auto; /* 반응형 웹을 위하여 좌우의 margin을 auto로 지정 */
+            background-color:  rgb(235, 190, 125); /* 최대 가로 크기를 800px로  */
+            padding: 20px; /* 내부 padding 값 */
+            border-radius: 10px; /* 모서리 둥근 정도 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 모서리 그림자 정도 */
+        }
+
+        /* 학점 계산기 제목 id */
+        #grade-calculator-title {
+            text-align: center;
+            font-size : 32px;
+            margin-bottom: 20px;
+        }
+
+        /* 수업명, 전공 과목 여부, 수업 영역 등등 Text */
+        .form-label {
+            display: block;  /* block으로 만들어줘야 margin값을 적용 가능하다*/
+            margin-bottom: 5px;
+            font-weight: bold; /* 글자 스타일을 bold */
+        }
+
+        /* 사용자가 입력하는 부분 ex) 수업명을 입력하세요 */
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* 전공 과목 O, X 버튼 스타일 */
+        .btn-major {
+            font-size: 24px;  /* O, X의 크기 */
+            padding: 16px 28px; /* 버튼의 padding 값 */
+            background-color: rgb(255, 182, 193); /* 버튼 색 */
+            color: black; /* O.X의 색 */
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px;
+            margin-left : 0px;
+        }
+        /* O,X 버튼 hover */
+        .btn-major:hover {
+            background-color: rgb(139, 69, 19);
+            font-weight : bold;
+            color : yellowgreen;
+        }
+
+        /* 버튼이 클릭되었을 때 활성화된 상태 */
+        .btn-major.clicked {
+            background-color: #FF6347; /* 클릭 시 배경색 빨간색 */
+            transform: scale(1.1);  /* 버튼 클릭 시 약간 커짐 */
+        }
+
+        /* 버튼끼리의 묶음 ex) O,X 혹은 수업 추가와 계산하기 */
+        .button-group {
+            display: flex;
+            gap: 20px; /* flex박스에서 사용가능 + O, X 사이의 간격 띄우기 */          
+        }
+
+        /* 수업 추가 버튼 */
+        .btn-primary {
+            background-color: rgb(255, 182, 193);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        /* 수업 추가 버튼 hover*/
+        .btn-primary:hover {
+            background-color: rgb(139, 69, 19);
+            font-weight : bold;
+            color : yellowgreen;
+        }
+
+        /* 계산하기 버튼 */
+        .btn-success {
+            background-color: rgb(255, 182, 193);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        /* 계산하기 버튼 hover */
+        .btn-success:hover {
+            background-color: rgb(139, 69, 19);
+            font-weight : bold;
+            color : yellowgreen;
+        }
+
+        /* 수업 목록 테이블 ex) 수업명, 전공여부 등등 */
+        .course-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse; /*테이블의 기본 경계선들을 합쳐서 하나의 테두리로 더 깔끔한 table로 만듦*/
+        }
+
+        /* 수업 목록 테이블 --thead와 tbody에 있는 th,td */
+        .course-table th, .course-table td {
+            padding: 12px;
+            border: 1px solid #ddd; 
+            text-align: center;
+        }
+        /* 수업 목록 테이블 --thead에 있는 th */
+        .course-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* 수업 영역 입력칸 */
+        #general-course-input {
+            display: block;
+        }
+
+        /* 입력한 수업 목록에서 table 표 ex. 수업명/전공여부/학점/성적/삭제 */
+        .course-table-container {
+            margin-top: 20px;
+        }
+        /* 성적 평가 기준 container*/
+        .grade-table-container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 800px;  /* 학점 계산기의 max-width랑 똑같이 */
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        /* 등급 표 table */
+        .grade-table {
+            width: 100%;
+            border-collapse: collapse; /* table에서 간격 없애기 */
+            margin-top: 20px;
+        }
+        /* 등급 표 table에서 thead랑 tbody*/
+        .grade-table th, .grade-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        /* 등급 표 table에서 thead만*/
+        .grade-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+         /* 등급 표 table에서 짝수번째마다 색변화(thead 내에서 tr 짝수/ tbody 내에서 tr 짝수) */
+        .grade-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* 등급 표 table에서 tbody에 있는 값 hover시 색 변화*/
+        /* 참고로 thead에 있는 값은 hover시 색 변화 명시하지 않으면 일반적으로 적용X*/
+        .grade-table tr:hover {
+            background-color: #ddd;
+        }
+        /* 등급 표 tbody 폰트 색/크기*/
+        .grade-table td {
+            font-size: 16px;
+            color: #555;
+        }
+        /* X버튼 꾸미기 */
+        .btn-delete {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom : 0; /* 모든 스타일에 margin-bottom : 12 를 넣었기 때문에 */
+        }
+        /* X버튼 hover시 색 변화*/
+        .btn-delete:hover {
+            color: darkred;
+        }
+        /* X 버튼을 셀 가운데데에 오도록 만들기*/
+        .delete-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin-bottom: 0;
+        }
+
+        /* 토스트 메시지, 수업 추가/삭제 관련해서 메시지 디자인*/
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%); /* X축 방향으로 50% 이동 */
+            background-color: rgba(60, 60, 60, 0.9);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            opacity: 0; /* 아무것도 하지 않았을 떄는 보이지 않음*/
+            pointer-events: none; /* 클릭을 할 수 없게 만든다 */
+            transition: opacity 0.4s ease; /* 부드럽게 투명도가 변한다*/
+            z-index: 9999;
+        }
+        /* 토스트 메시지가 나타날 때 (띄어쓰기하면 전혀 다른 의미)*/
+        .toast-message.show {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 수업 입력란을 추가하는 부분 -->
+    <div class="grade-calculator-container">
+        <!--제목 부분-->
+        <h2 id="grade-calculator-title">학점 계산기</h2>
+        
+        <form id="grade-form">
+            <!--수업명 입력 부분-->
+            <div class="form-group">
+                <label for="course-name" class="form-label">수업명</label>
+                <input type="text" id="course-name" class="input-field" placeholder="수업명을 입력하세요">
+            </div>
+            <!-- 전공 과목 여부 부분-->
+            <div class="form-group">
+                <label for="is-major" class="form-label">전공 과목 여부</label>
+                <!-- 전공 과목 O, X 버튼 -->
+                <div class="button-group">
+                    <button type="button" id="is-major-O" class="btn-major" onclick="toggleActive('O')">O</button>
+                    <button type="button" id="is-major-X" class="btn-major" onclick="toggleActive('X')">X</button>
+                </div>
+            </div>
+            <!-- 수업 영역 -->
+            <div id="general-course-input" class="form-group" style="display: block;">
+                <label for="general-course" class="form-label">수업 영역</label>
+                <input type="text" id="general-course" class="input-field" placeholder="교양 수업을 입력하세요">
+            </div>
+            <!-- 학점 영역 -->
+            <div class="form-group">
+                <label for="credits" class="form-label">학점</label>
+                <input type="number" id="credits" class="input-field" placeholder="학점을 입력하세요" min="1">
+            </div>
+            <!-- 성적 영역 -->
+            <div class="form-group">
+                <label for="grade" class="form-label">성적</label>
+                <select id="grade" class="input-field">
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="B-">B-</option>
+                    <option value="C+">C+</option>
+                    <option value="C">C</option>
+                    <option value="C-">C-</option>
+                    <option value="D+">D+</option>
+                    <option value="D">D</option>
+                    <option value="D-">D-</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+            
+            <!-- 수업 추가 버튼 / 계산하기 버튼 -->
+            <div class="form-group button-group">
+                <button type="button" onclick="addCourse()" class="btn btn-primary">수업 추가</button>
+                <button type="button" onclick="calculateAverages(event)" class="btn btn-success">계산하기</button>
+            </div>
+        </form>
+        <!-- 전공 평균 학점 -->
+        <h4>전공 평균 학점: <span id="major-gpa">0.0</span></h4>
+        <!-- 전체 평균 학점 -->
+        <h4>전체 평균 학점: <span id="overall-gpa">0.0</span></h4>
+        <!-- 입력한 수업 목록 -->
+        <div class="course-table-container">
+            <h4>입력한 수업 목록</h4>
+            <table id="course-list" class="course-table">
+                <thead>
+                    <tr>
+                        <th>수업명</th>
+                        <th>전공 여부</th>
+                        <th>학점</th>
+                        <th>성적</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 성적 평가 기준 -->
+    <div class="grade-table-container">
+        <h2>성적 평가 기준</h2>
+        <table class="grade-table">
+            <thead>
+                <tr>
+                    <th>등급</th>
+                    <th>세부등급(평점)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>A+</td><td>4.5</td></tr>
+                <tr><td>A</td><td>4.3</td></tr>
+                <tr><td>A-</td><td>4.0</td></tr>
+                <tr><td>B+</td><td>3.5</td></tr>
+                <tr><td>B</td><td>3.3</td></tr>
+                <tr><td>B-</td><td>3.0</td></tr>
+                <tr><td>C+</td><td>2.5</td></tr>
+                <tr><td>C</td><td>2.3</td></tr>
+                <tr><td>C-</td><td>2.0</td></tr>
+                <tr><td>D+</td><td>1.5</td></tr>
+                <tr><td>D</td><td>1.3</td></tr>
+                <tr><td>D-</td><td>1.0</td></tr>
+                <tr><td>F</td><td>0.0</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <!--토스트 메시지, 수업 추가,삭제 시에 메시지-->
+    <div id="toast" class="toast-message">메시지</div>
+
+    <script>
+        let totalCredits = 0; // 전체 학점의 총합
+        let totalGradePoints = 0; // 학점 * 성적에 따른 점수의 총합
+        let totalMajorCredits = 0; // 전공 학점의 총합
+        let totalMajorGradePoints = 0; // 전공 학점 * 성적에 따른 점수의 총합
+        // 수업 목록을 localStorage에 저장할 배열
+        let courseList = [];
+
+        // 성적에 따른 점수 계산
+        function getGradePoint(grade) {
+            switch (grade) {
+                case "A+":
+                    return 4.5;
+                case "A":
+                    return 4.3;
+                case "A-":
+                    return 4.0;
+                case "B+":
+                    return 3.5;
+                case "B":
+                    return 3.3;
+                case "B-":
+                    return 3.0;
+                case "C+":
+                    return 2.5;
+                case "C":
+                    return 2.3;
+                case "C-":
+                    return 2.0;
+                case "D+":
+                    return 1.5;
+                case "D":
+                    return 1.3;
+                case "D-":
+                    return 1.0;
+                default:
+                    return 0.0; // F
+            }
+        }
+
+
+        
+    // 수업 추가 함수
+    function addCourse() {
+        // 수업명 입력값
+        const courseName = document.getElementById("course-name").value;
+        // 학점 입력값
+        const credits = parseInt(document.getElementById("credits").value);
+        // 성적 입력값
+        const grade = document.getElementById("grade").value;
+
+
+        // 전공 과목 여부 O버튼이 클릭되어있다면 true, 아니면 false를 반환함
+        const isMajor = document.getElementById("is-major-O").classList.contains('clicked');
+        // O버튼 클릭시 '전공', 아니면 '교양'
+        let courseType = isMajor ? '전공': document.getElementById("general-course").value || '교양';
+
+        // 입력값이 없으면 경고 메시지
+        if (!courseName || !credits || !grade) {
+            alert("입력이 부족합니다!!");
+            return; // return이 없으면 함수가 계속 진행되어서 입력값 받지 않고 진행됨.
+        }
+         // 새 수업 객체 만들기
+         const newCourse = {
+            name : courseName,
+            type : courseType,
+            credits : credits,
+            grade : grade,    
+        };
+        // 수업 목록을 localStorage에 저장할 배열에 저장
+        courseList.push(newCourse);
+        // localStorage에 tag가 'courses'로 배열이 문자열로 저장됨
+        localStorage.setItem('courses', JSON.stringify(courseList));
+
+        // 테이블에 수업을 출력하는 함수
+        renderCourse(newCourse);
+
+        // 성적 계산, getGradePoint함수는 입력한 성적을 점수로 바꿔주는 함수
+        const gradePoint = getGradePoint(grade);
+        // 학점의 총합
+        totalCredits += credits;
+        // 학점 * 성적에 따른 점수의 합
+        totalGradePoints += gradePoint * credits;
+
+        if (isMajor) {
+            // 전공 학점의 총합
+            totalMajorCredits += credits;
+            // 전공 학점 * 성적에 따른 점수의 합
+            totalMajorGradePoints += gradePoint * credits;
+        }
+
+
+
+        // 폼 초기화
+        document.getElementById("grade-form").reset();
+        // 버튼 상태 초기화
+        document.getElementById("is-major-O").classList.remove('clicked');
+        document.getElementById("is-major-X").classList.remove('clicked');
+
+        // 수업 추가 누르시 메시지 등장
+        showToast("수업이 추가되었습니다!");
+    }
+
+
+    // O, X 버튼 클릭시 버튼 상태 변경
+    function toggleActive(buttonType) {
+        const isMajorO = document.getElementById("is-major-O");
+        const isMajorX = document.getElementById("is-major-X");
+        // 수업 영역 입력값
+        const generalCourseInput = document.getElementById("general-course-input");
+
+        if (buttonType === 'O') {
+            // clicked라는 클래스를 추가하거나 삭제하는 코드
+            isMajorO.classList.add('clicked');
+            isMajorX.classList.remove('clicked');
+            generalCourseInput.style.display = 'none'; // 전공이면 숨김
+        } else {
+            isMajorX.classList.add('clicked');
+            isMajorO.classList.remove('clicked');
+            generalCourseInput.style.display = 'block'; // 교양이면 표시
+        }
+    }
+
+    // 학점 평균을 계산하는 함수 event는 이벤트 객체, button 태그에서 onclick = calculateAverages(event) 명시
+    function calculateAverages(event) {
+        // onclick 시 페이지 새로고침을 막아버림
+        if (event) event.preventDefault();
+        // .toFixed는 소수점 둘째자리까지 반올림해서 나타낸다. 따라서 전체 평균 학점과 전공 평균 학점을 구한다
+        const majorGPA = totalMajorCredits === 0 ? 0 : (totalMajorGradePoints / totalMajorCredits).toFixed(2);
+        const overallGPA = totalCredits === 0 ? 0 : (totalGradePoints / totalCredits).toFixed(2);
+        // 텍스트 내용을 계산된 값을 바꿔버리는 함수
+        document.getElementById("major-gpa").textContent = majorGPA;
+        document.getElementById("overall-gpa").textContent = overallGPA;
+    }
+
+    // 삭제 버튼 관련 클릭시 해당 셀 삭제, 그리고 평균값 다시 계산하기
+    function deleteCourse(button) {
+        // 삭제 버튼이 위치한 수업 정보가 있는 행 (<tr>) 을 의미한다
+        const row = button.parentElement.parentElement;
+        // 삭제 버튼이 위치한 행 내 모든 td를 의미, 즉 수업명, 전공여부, 학점, 성적
+        const cells = row.getElementsByTagName("td");
+        // 수업명 텍스트
+        const courseName = cells[0].textContent;
+        // 전공여부 텍스트
+        const courseType = cells[1].textContent;
+        // 학점 점수
+        const courseCredits = parseInt(cells[2].textContent);
+        // 성적 텍스트
+        const courseGrade = cells[3].textContent;
+        // 성적에 따른 점수
+        const gradePoint = getGradePoint(courseGrade);
+
+        // 삭제 후 전체 평균 학점 값 다시 구하기
+        totalCredits -= courseCredits;
+        totalGradePoints -= gradePoint * courseCredits;
+        // 삭제 후 전공 평균 학점 값 다시 구하기
+        if (courseType === '전공') {
+            totalMajorCredits -= courseCredits;
+            totalMajorGradePoints -= gradePoint * courseCredits;
+        }
+
+        // filter() 콜백함수를 통해 courseList 객체 안에 여러 배열 중 삭제할려는 배열을 찾아서 삭제하고 객체를 재정의하는 코드
+        courseList = courseList.filter(course =>    // course 객체로 courseList 객체의 여러 배열을 전달한다
+            !(course.name === courseName && 
+            course.type === courseType &&
+            course.credits === courseCredits &&
+            course.grade === courseGrade)   // return 값이 false라면 아무 일도 일어나지 않지만 true라면 배열이 filter 된다.
+        );
+        // localStorage에 반영
+        localStorage.setItem('courses', JSON.stringify(courseList));  
+        // 테이블에서 제거
+        row.remove();
+        // 평균 재계산
+        calculateAverages();
+        // 삭제 버튼 누르실 메시지 추가!
+        showToast("수업이 삭제되었습니다!");
+    }
+
+
+    // 페이지 로드 시 localStorage에서 데이터 복원
+    // window.onload는 페이지가 완전히 로드되었을 때 실행되는 이벤트
+    window.onload = function () {
+        const savedCourses = localStorage.getItem('courses');
+        if (savedCourses) {
+            courseList = JSON.parse(savedCourses); // 객체 배열로 전환하여 courseList 변수에 할당함
+            // 수업 객체를 순차적으로 가져오는 함수
+            courseList.forEach(course => {
+                renderCourse(course);  // 테이블에 그리기
+                // 평균 학점 계산도 함께 반영
+                const gradePoint = getGradePoint(course.grade);
+                totalCredits += course.credits;
+                totalGradePoints += gradePoint * course.credits;
+
+                if (course.type === '전공') {
+                    totalMajorCredits += course.credits;
+                    totalMajorGradePoints += gradePoint * course.credits;
+                }
+            });
+            calculateAverages();
+        }
+    };
+    // 테이블에 수업을 출력하는 함수
+    function renderCourse(course) {
+    const tbody = document.getElementById("course-list").getElementsByTagName("tbody")[0];
+    // tbody에 새로운 tr을 끝에 추가하고 해당 정보를 newRow에 저장한다.
+    const newRow = tbody.insertRow();
+    newRow.innerHTML = `
+        <td>${course.name}</td>
+        <td>${course.type}</td>
+        <td>${course.credits}</td>
+        <td>${course.grade}</td>
+        <td>
+            <button class="btn-delete" onclick="deleteCourse(this)">X</button>
+        </td>
+    `; // this는 버튼 자신을 의미한다
+    }
+    // 토스트 메시지 나오는 함수, 매개변수는 나타날 메시지를 의미
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        // 3초 후에 메시지가 사라지는 콜백함수
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);  
+    }
+
+    </script>      
+</body>
+</html>

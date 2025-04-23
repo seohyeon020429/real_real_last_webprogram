@@ -1,0 +1,22 @@
+@import "css/clubs.css";
+@import "css/index.css";
+@import "css/introduce_club.css";
+@import "css/nav_bar.css";
+@import "css/login.css";
+@import "css/introduce_site.css";
+@import "css/phy_card.css";
+@import "css/rel_card.css";
+@import "css/perform_card.css";
+@import "css/cre_card.css";
+@import "css/busi_card.css";
+@import "css/aca_card.css";
+@import "css/login-practice_page.css";
+
+body {
+    margin : 0px;
+    height : 250vh;
+}
+
+.Home {
+    height : 100%;
+}

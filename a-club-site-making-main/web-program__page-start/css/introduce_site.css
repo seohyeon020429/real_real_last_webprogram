@@ -1,0 +1,130 @@
+@import "css/nav_bar.css";
+
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* 네비게이션 메뉴 */
+nav {
+    background-color: #0047ab;
+    text-align: center;
+}
+
+.navigation {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation li {
+    margin: 0 15px;
+}
+
+.navigation a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+.navigation a:hover {
+    background-color: #3366cc;
+    border-radius: 5px;
+}
+
+/* 메인 제목 */
+main {
+    padding: 20px;
+}
+
+main h2 {
+    text-align: center;
+    color: #2a96c8;
+    margin-bottom: 20px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+}
+
+thead {
+    background-color: #0047ab;
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+tbody tr:hover {
+    background-color: #e6f7ff;
+}
+body {
+    margin: 40;
+    font-family: Arial, Helvetica, sans-serif;
+}
+  
+.topnav {
+    display: flex;
+    justify-content: flex-start; /*왼쪽 정렬*/
+    align-items: center;
+    overflow: hidden; /*내용이 넘쳤을 경우 숨김*/
+    background-color: #ffffff;
+    height: 60px
+}
+  
+.topnav a {
+    color: #000000;
+    text-align: center;
+    padding: 0 40px;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 60px
+}
+  
+  /*로그인 버튼 설정*/
+.topnav a.login{
+      background-color:rgb(76, 142, 233);
+      border-radius : 8px; /*모서리 둥글게 만들기*/
+      margin-left: auto;   /*오른쪽 끝으로 정렬*/
+      font-size:24px;
+    }
+  
+.topnav a.site-name {
+      font-size: 28px;
+      font-weight: bold;
+}
+  
+  /* 마우스를 항목 위에 올려 놓았을 경우 색상 설정*/
+.topnav a:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+  
+  /*활성화 된 링크 스타일 설정*/
+.topnav a.active {
+    background-color: #a3a5a4;    
+    color: white;
+}

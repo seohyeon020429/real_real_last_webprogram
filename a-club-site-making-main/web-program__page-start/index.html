@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class = "Home">
+    <nav class = "nav_bar"> 
+        <div class = "top_nav">
+            <a class="site-name" href = "index.html">사이트 이름</a>
+            <a class = "center-link" href = "clubs_introduce.html">사이트 소개</a>
+            <a class = "center-link" href = "clubs.html">동아리</a>
+            <a class = "center-link" href = "credit_calculator.html">학점 계산기</a>
+            <a class = "center-link" href = "main-home.html">HTML/CSS 스터디</a>
+            <a class = "top_nav-login" href="login.html">로그인</a>
+        </div>
+    </nav>
+
+    <div class = "search">
+        <!--<p>검색창 위에 하고 싶은 말</p>-->
+        <!--<span>검색창 위에 하고 싶은 말</span>-->
+        <form name="searchform" method="post" action="/search" class = "search-container">
+            <!--<label for = "searchform-input"></label>-->
+            <button type="submit" class = "search-button">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input type ="text" name ="s_keyword" placeholder="찾으시는 동아리, 소모임 있으신가요??"" id="searchform-input" class ="search-input">
+            
+        </form>
+    </div>
+
+    <main class="Home-page-main-section">
+        <div class = "Home-classification">
+            <div class = "Home-classification-column">
+                <img class = "column-img" src="https://plus.unsplash.com/premium_vector-1731581043875-fc0bbc2ad291?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGNoaWNrZW4lMjBjaGFyYWN0ZXJ8ZW58MHx8MHx8fDA%3D">
+                <h1 class="Home-classification-column_name">동아리</h1>
+                <detail class="Home-classification-column_detail">
+                    <p>우리 학교에 어떤 동아리가 있는지</p>
+                    <p>확인해보시죠!</p>
+                </detail>
+                <button class="Home-classification-column_button" onclick="window.location.href='clubs.html'">More</button>
+            </div>
+            <div class = "Home-classification-column">
+                <img class = "column-img" src="https://images.unsplash.com/vector-1740286698618-7f01b97f6899?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjUzfHxjdXRlJTIwY2hpY2tlbnxlbnwwfHwwfHx8MA%3D%3D">
+                <h1 class="Home-classification-column_name">소모임</h1>
+                <detail class="Home-classification-column_detail">
+                    <p>우리 과에는 어떤 소모임이</p>
+                    <p>있을까?</p>
+                </detail>
+                <button class="Home-classification-column_button">More</button>
+            </div>
+            <div class = "Home-classification-column">
+                <img class="column-img" src="https://images.unsplash.com/vector-1740878694530-d3ce3827c6e7?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fGN1dGUlMjBjaGlja2VufGVufDB8fDB8fHww">
+                <h1 class="Home-classification-column_name">대학생 필수!</h1>
+                <detail class="Home-classification-column_detail">
+                    <p>대학생활 필수!!</p>
+                    <p>학점 계산기!!</p>
+                </detail>
+                <button class="Home-classification-column_button" onclick="window.location.href='credit_calculator.html'">More</button>
+            </div>
+         </div>
+    </main>
+
+    <div class = Homepage-body-background>
+        <img src = "https://plus.unsplash.com/premium_vector-1682270275978-3ac5bae3ea48?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dW5pdmVyc2l0eXxlbnwwfHwwfHx8MA%3D%3D">
+    </div>
+
+    <script src="https://kit.fontawesome.com/21012219c4.js" crossorigin="anonymous"></script>
+</body>
+</html>

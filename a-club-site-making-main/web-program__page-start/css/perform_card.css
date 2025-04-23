@@ -1,0 +1,76 @@
+/* **페이지 기본 스타일** */
+.per_body {
+    font-family: Arial, sans-serif; /* 페이지 기본 폰트 설정 (Arial 또는 sans-serif 계열) */
+    margin: 0; /* 브라우저 기본 여백 제거 */
+    padding: 0; /* 브라우저 기본 패딩 제거 */
+    background-color: #f9f9f9; /* 페이지 배경색을 밝은 회색 (#f9f9f9)으로 설정 */
+}
+
+/* **페이지 제목 스타일링** */
+.per_h1 {
+    text-align: center; /* 제목(h1) 텍스트를 수평 중앙 정렬 */
+    margin-top: 20px; /* 제목과 페이지 위쪽 사이 간격 설정 (20px만큼) */
+    color: #0047ab; /* 제목 텍스트 색상을 파란색 (#0047ab)으로 설정 */
+}
+
+/* **콘텐츠 컨테이너 스타일** */
+.per_container {
+    padding: 20px; /* 컨테이너 내부의 모든 방향에 여백 20px 추가 */
+    max-width: 2000px; /* 컨테이너 최대 너비를 2000px로 제한 */
+    margin: 0 auto; /* 컨테이너를 화면 중앙에 배치 */
+}
+
+/* **카드 리스트를 플렉스 박스로 정렬** */
+.per_rows {
+    display: flex; /* 행의 콘텐츠를 플렉스 박스로 설정 */
+    flex-wrap: wrap; /* 행이 화면 너비를 초과할 경우 줄바꿈을 허용 */
+    justify-content: space-between; /* 카드 사이에 일정한 간격을 두며 좌우로 정렬 */
+    gap: 20px; /* 카드 간격을 20px 추가 */
+}
+
+/* **개별 카드 스타일** */
+.per_card {
+    flex: 1 1 calc(20% - 20px); /* 카드의 기본 크기를 20%로 설정하며, 가로 간격을 포함한 크기 계산 */
+    background-color: #ffffff; /* 카드 배경색을 흰색으로 설정 */
+    border: 1px solid #ddd; /* 카드 외곽에 연한 회색(#ddd)의 1px 테두리 추가 */
+    border-radius: 10px; /* 카드 모서리를 둥글게 (반지름 10px) 설정 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드에 약간의 그림자 효과 추가 */
+    overflow: hidden; /* 카드 콘텐츠가 영역을 넘어갈 경우 숨김 처리 */
+    text-align: center; /* 카드 내부 텍스트를 중앙 정렬 */
+    transition: transform 0.2s, box-shadow 0.2s; /* 마우스 호버 시 위치와 그림자가 서서히 변경되도록 설정 */
+}
+
+/* **카드 호버 효과** */
+.per_card:hover {
+    transform: translateY(-5px); /* 마우스로 카드 위로 이동 시, 카드가 위로 5px 올라가 보이도록 설정 */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* 호버 상태 시 그림자 강도를 더 진하게 설정 */
+}
+
+/* **카드 내부의 이미지** */
+.per_card img {
+    width: 100%; /* 이미지를 카드 너비에 꽉 차게 설정 */
+    height: 150px; /* 이미지 높이를 150px로 고정 */
+    object-fit: cover; /* 이미지 왜곡 없이 크기에 맞춰 자르기 */
+    border-bottom: 1px solid #ddd; /* 이미지 아래에 연한 회색(#ddd)의 선 추가 (테두리 효과) */
+}
+
+/* **카드 내부의 제목 스타일** */
+.per_card h3 {
+    margin: 10px 0; /* 제목 위아래 간격을 각각 10px로 설정 */
+    font-size: 18px; /* 제목의 글씨 크기를 18px로 설정 */
+    color: #333; /* 제목 텍스트 색상을 진한 회색(#333)으로 설정 */
+}
+
+/* **카드 내부의 링크 스타일** */
+.per_card a {
+    display: inline-block; /* 링크를 인라인 블록으로 설정 (버튼처럼 보이게 함) */
+    margin-top: 10px; /* 링크와 위 콘텐츠 사이에 10px의 여백 추가 */
+    color: #0047ab; /* 링크 텍스트 색상을 파란색(#0047ab)으로 설정 */
+    text-decoration: none; /* 기본 링크 밑줄 제거 */
+    font-weight: bold; /* 링크 텍스트를 굵게 표시 */
+}
+
+/* **링크의 호버 효과** */
+.per_card a:hover {
+    text-decoration: underline; /* 마우스 호버 시 링크에 밑줄 표시 */
+}

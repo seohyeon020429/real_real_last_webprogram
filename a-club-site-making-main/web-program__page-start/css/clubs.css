@@ -1,0 +1,103 @@
+.title-page-bg {
+    width : 100%;
+    height : 320px;
+    position : relative;
+}
+
+.title-page-bg-img {
+    width : 100%;
+    height : 100%;
+    padding : 0px;
+    object-fit: cover;
+    opacity : 60%;
+}
+
+.title-page-intro {
+    position : relative;   /* absolute 사용시 반응형 웹 사이트가 불가능 */
+    top : -240px;
+    text-align: center;
+}
+
+.title-page-intro>p {
+    font-size : 40px;
+    color : white;
+    font-weight: bold;
+}
+
+
+.title-page-comment {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 20px; /* 요소 간 간격 */
+    background-color: #f8f9fa; /* 배경색 (원하는 색으로 변경 가능) */
+    margin-left : 8px;
+    position : absolute;  /* 이미지 기준으로 위치 변경 */
+    bottom : 0px;  /* 배경에서 아래로 0px*/
+}
+
+.title-page-comment>a {
+    padding : 20px 20px;  /* 패딩값을 일치하게 만들어줘야 교양분야 클릭시 위에 빈공간이 나오지 않음 */
+    background-color:rgba(54, 72, 205, 1);
+    font-size : 20px;
+    color : black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-page-comment_column {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.title-page-comment_column dl {
+    margin: 0;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 각 링크 사이 간격 */
+}
+
+.title-page-comment_column a {
+    text-decoration: none; /* 기본값으로 밑줄이 없는 보통 글자 */
+    color: #333; /* 링크 색상 */
+    font-weight: bold; /* 글씨의 굵기 */
+}
+
+.title-page-comment_column ul {
+    list-style: none; /* 리스트에 있는 점 없애기 */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.hidden-list {
+    display: none; /* 기본적으로 숨김 */
+}
+
+.hidden-list ul {
+    padding: 0;
+    margin: 0;
+}
+
+.hidden-list li {
+    padding: 8px 10px; /* list의 크기가 달라짐 */
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.hidden-list li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.title-page-comment_column-first {
+    border-right : 3px solid rgba(54, 72, 205, 1);;  /* 중앙동아리 구분선 */
+}
+
+
+
+
